@@ -44,4 +44,4 @@ sed -i 's/"UPnP"/"UPnP管理"/g' feeds/luci/applications/luci-app-upnp/po/zh-cn/
 sed -i 's/"京东签到服务"/"领取京豆插件"/g' feeds/jerryk/luci-app-jd-dailybonus/po/zh-cn/jd-dailybonus.po
 sed -i 's/"PassWall"/"PassWall科学上网"/g' feeds/xiaorouji/lienol/luci-app-passwall/po/zh-cn/passwall.po
 sed -i 's/"ZeroTier"/"ZeroTier内网穿透"/g' package/lean/luci-app-zerotier/po/zh-cn/zerotier.po
-# sed -i 's/"ShadowSocksR Plus+"/"SSR-Plus科学上网"/g' feeds/jerryk/luci-app-jd-dailybonus/po/zh-cn/jd-dailybonus.po
+sed -i 's/"ShadowSocksR Plus+"/"SSR-Plus科学上网"/g' feeds/helloworld/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
