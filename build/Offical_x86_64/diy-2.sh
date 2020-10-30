@@ -21,7 +21,7 @@ sed -i 's@.*CYXluq4wUazHjmCDBCqXF*@#&@g' package/lean/default-settings/files/zzz
 #sed -i 's/KERNEL_PATCHVER:=4.19/KERNEL_PATCHVER:=4.9/g' target/linux/x86/Makefile
 
 # 删除已知的重复文件
-rm -rf package/lienol/luci-app-timecontrol
+# rm -rf package/lienol/luci-app-timecontrol
 
 
 # 修改插件名字（修改名字后不知道会不会对插件功能有影响，自己多测试）
