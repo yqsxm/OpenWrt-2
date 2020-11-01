@@ -48,9 +48,7 @@ sed -i 's/"管理权"/"修改密码"/g' feeds/luci/modules/luci-base/po/zh-cn/ba
 sed -i 's/"带宽监控"/"监控"/g' feeds/luci/applications/luci-app-nlbwmon/po/zh-cn/nlbwmon.po
 sed -i 's/"UPnP"/"UPnP管理"/g' feeds/luci/applications/luci-app-upnp/po/zh-cn/upnp.po
 sed -i 's/"UPnP"/"UPnP管理"/g' package/lean/luci-app-upnp/po/zh-cn/upnp.po
-# sed -i 's/"京东签到服务"/"领京豆插件"/g' feeds/jerryk/luci-app-jd-dailybonus/po/zh-cn/jd-dailybonus.po
 sed -i 's/"京东签到服务"/"领京豆插件"/g' package/lean/luci-app-jd-dailybonus/po/zh-cn/jd-dailybonus.po
-# sed -i 's/"PassWall"/"PassWall科学上网"/g' feeds/xiaorouji/lienol/luci-app-passwall/po/zh-cn/passwall.po
 sed -i 's/"PassWall"/"PassWall科学上网"/g' package/lean/luci-app-passwall/po/zh-cn/passwall.po
 sed -i 's/"ZeroTier"/"ZeroTier内网穿透"/g' package/lean/luci-app-zerotier/po/zh-cn/zerotier.po
 sed -i 's/"ShadowSocksR Plus+"/"SSR-Plus科学上网"/g' feeds/helloworld/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
