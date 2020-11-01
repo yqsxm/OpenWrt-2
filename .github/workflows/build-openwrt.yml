@@ -12,10 +12,15 @@ name: 编译OpenWrt固件
 on:
   workflow_dispatch:
     inputs:
-      name:
+      ssh:
         description: 'build-openwrt'
-        required: true
-        default: '编译OpenWrt固件'
+        required: false
+        default: 'ssh actions'
+
+#使用专用按钮启动的时候把绿色按钮上面的ssh actions改成ssh可以开启SSH远程连接
+#这个连接会把选择的所有机型都一起开启SSH连接的,这个为一次性开启
+#下次编译的时候不修改的话就不会开启SSH远程的，除非你在build文件夹的
+#对应机型‘settings.ini’那里开启了SSH连接，所以要注意区分
 
 
 #编辑任意指定文件触发开始编译（现在是修改根目录的'开启编译'触发编译）
@@ -51,7 +56,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [Lede_x86_64]  #[Lede_x86_64,Lede_redmi_ac2100,Lede_newifi_d2,Lede_nanopi_r2s,Lede_phicomm_k2p,Lienol_x86_64,Lienol_phicomm_k2p,Lienol_phicomm_k3,Project_x86_64,Project_newifi_d2,Project_phicomm_k3,Project_nanopi_r2s,Project_xiaomi_ac2100,Project_xiaomi_mir3g]
+        target: [Lede_x86_64]  
+
+     # [Lede_nanopi_r2s,Lede_newifi_d2,Lede_phicomm_k2p,Lede_phicomm_n1,Lede_redmi_ac2100,Lede_x86_64,Lede_xiaomi_r3pro,Lede_xiaoyu_c5]
+     # [Lienol_phicomm_k2p,Lienol_phicomm_k3,Lienol_x86_64]
+     # [Project_nanopi_r2s,Project_newifi_d2,Project_phicomm_k3,Project_phicomm_n1,Project_x86_64,Project_xiaomi_ac2100,Project_xiaomi_mir3g]
+
 
     steps:
     - name: 准备结束
@@ -99,7 +109,7 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
-        git clone -b $REPO_BRANCH --single-branch $REPO_URL openwrt
+        git clone --branch "$REPO_BRANCH" --single-branch "$REPO_URL" "openwrt"
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: 加载源,patch补丁和自定义设置
@@ -142,7 +152,7 @@ jobs:
     
     - name: SSH远程连接服务器配置固件
       uses: P3TERX/ssh2actions@v1.0.0
-      if: env.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
+      if: env.SSH_ACTIONS == 'true' || (github.event.inputs.ssh == 'ssh' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
 
     - name: 下载软件包
       id: package
@@ -177,14 +187,15 @@ jobs:
         find openwrt/bin/targets/ -name "*config.buildinfo*" | xargs -i mv -f {} config
         cd openwrt/bin/targets/*/*
         rm -rf packages && mkdir packages
-        find -name "*.buildinfo*" | xargs -i mv -f {} packages
+        find -name "*buildinfo*" | xargs -i mv -f {} packages
         find -name "*sha256sums*" | xargs -i mv -f {} packages
         find -name "*kernel.bin*" | xargs -i mv -f {} packages
         find -name "*kernel1.bin*" | xargs -i mv -f {} packages
-        find -name "*rootfs*" | xargs -i mv -f {} packages
-        find -name "*.manifest*" | xargs -i mv -f {} packages
+        find -name "*manifest*" | xargs -i mv -f {} packages
         find -name "*vmlinuz*" | xargs -i mv -f {} packages
         find -name "*esxi.vmdk*" | xargs -i mv -f {} packages
+        find -name "*Image*" | xargs -i mv -f {} packages
+        find -name "*rootfs-squashfs*" | xargs -i mv -f {} packages
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
@@ -268,17 +279,12 @@ jobs:
         text: 恭喜主人${{matrix.target}}固件编译成功！
         desp: 我亲爱的主人您要编译的${{ env.WXFB_MESSAGE }}固件成功编译完成了！
               
-              
               完成时间：${{ env.date1 }}
-              
               
               发布地址：${{ env.GITHUB_RELEASE }}
               
-              
               奶牛快传：${{ env.COWTRANSFER_URL }}
               
-              
               WeTransfer：${{ env.WETRANSFER_URL }}
-              
               
               祝小主人见人爱，花见花开，车见车载，天天好心情🎈！！！
