@@ -24,10 +24,10 @@ curl -fsSL  https://raw.githubusercontent.com/Lienol/openwrt-packages/dev-19.07/
 #sed -i 's/KERNEL_PATCHVER:=5.4/KERNEL_PATCHVER:=4.19/g' target/linux/x86/Makefile
 #sed -i 's/KERNEL_TESTING_PATCHVER:=5.4/KERNEL_TESTING_PATCHVER:=4.19/g' target/linux/x86/Makefile
 
-# 添加导航页（因为纯静态页，直接用默认内置的uhpptd服务）
+# 添加导航页（因为纯静态页，直接用默认内置的uhpptd服务,用的6600端口，自定义路径，把导航页面放在/mnt/www文件夹）
 sed -i "$ a\config 'uhttpd' 'web'" /etc/config/uhttpd
-sed -i "$ a\list 'listen_http' '0.0.0.0:6600'" /etc/config/uhttpd    # 用的6600端口，可以在这里自定义更改
-sed -i "$ a\option 'home' '/mnt/www/'" /etc/config/uhttpd          # 自定义路径，把导航页面放在/mnt/www文件夹下
+sed -i "$ a\list 'listen_http' '0.0.0.0:6600'" /etc/config/uhttpd
+sed -i "$ a\option 'home' '/mnt/www/'" /etc/config/uhttpd
 sed -i "$ a\option 'cgi_prefix' '/cgi-bin'" /etc/config/uhttpd
 
 # 修改插件名字（修改名字后不知道会不会对插件功能有影响，自己多测试）
